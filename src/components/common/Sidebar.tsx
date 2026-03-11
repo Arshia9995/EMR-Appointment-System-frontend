@@ -1,5 +1,5 @@
 import React from "react";
-import { Users, UserPlus, Calendar, LogOut, Home, LayoutDashboard } from "lucide-react";
+import { Users, UserPlus, Calendar, LogOut, Home, LayoutDashboard, FileText } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../redux/actions/authActions";
@@ -62,6 +62,14 @@ const Sidebar: React.FC = () => {
         >
           <Calendar size={18} />
           Appointment Scheduler
+        </button>
+
+        <button
+          onClick={() => navigate("/admin/audit-log")}
+          className="flex items-center gap-3 w-full p-3 rounded hover:bg-blue-50"
+        >
+          <FileText size={18} />
+          Audit Log
         </button>
 
       </nav>

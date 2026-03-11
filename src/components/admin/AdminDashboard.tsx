@@ -68,7 +68,18 @@ const AdminDashboard: React.FC = () => {
           </button>
         </div>
 
+        {/* Stats row – today's appointments first */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div
+            className="bg-white p-6 rounded-lg shadow cursor-pointer hover:shadow-lg transition"
+            onClick={() => navigate("/admin/appointments")}
+          >
+            <h3 className="text-gray-500 text-sm">Appointments Today</h3>
+            <p className="text-3xl font-bold text-purple-600">
+              {stats.apptsToday}
+            </p>
+          </div>
+
           <div
             className="bg-white p-6 rounded-lg shadow cursor-pointer hover:shadow-lg transition"
             onClick={() => navigate("/admin/doctors")}
@@ -86,16 +97,6 @@ const AdminDashboard: React.FC = () => {
             <h3 className="text-gray-500">Staff (Receptionists)</h3>
             <p className="text-3xl font-bold text-green-600">
               {stats.staffCount}
-            </p>
-          </div>
-
-          <div
-            className="bg-white p-6 rounded-lg shadow cursor-pointer hover:shadow-lg transition"
-            onClick={() => navigate("/admin/appointments")}
-          >
-            <h3 className="text-gray-500">Appointments Today</h3>
-            <p className="text-3xl font-bold text-purple-600">
-              {stats.apptsToday}
             </p>
           </div>
         </div>
@@ -154,31 +155,55 @@ const AdminDashboard: React.FC = () => {
                 No recent appointment activity for today.
               </p>
             ) : (
-              <ul className="space-y-3 text-sm">
-                {recent.map((a) => (
-                  <li key={a._id} className="flex justify-between gap-3">
-                    <div>
-                      <p className="font-semibold text-slate-900">
-                        {a.patientName ||
-                          a.existingPatientIdentifier ||
-                          "Unknown patient"}
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        Dr. {a.doctor?.name} • {a.doctor?.department}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-slate-500">
-                        {new Date(a.startTime).toLocaleTimeString("en-US", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: true,
-                        })}
-                      </p>
-                      <p className="text-xs text-slate-600">{a.status}</p>
-                    </div>
-                  </li>
-                ))}
+              <ul className="space-y-2 text-sm">
+                {recent.slice(0, 5).map((a) => {
+                  const patientLabel =
+                    a.patientName ||
+                    a.existingPatientIdentifier ||
+                    "Unknown patient";
+                  const timeLabel = new Date(
+                    a.startTime
+                  ).toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  });
+
+                  let icon = "✅";
+                  let actionText = "Appt booked";
+                  if (a.status === "Arrived") {
+                    icon = "🟡";
+                    actionText = "Appt arrived";
+                  } else if (a.status === "Done") {
+                    icon = "🟢";
+                    actionText = "Appt completed";
+                  }
+
+                  return (
+                    <li
+                      key={a._id}
+                      className="flex justify-between items-start gap-3"
+                    >
+                      <div className="flex gap-2">
+                        <span className="text-lg">{icon}</span>
+                        <div>
+                          <p className="text-slate-800">
+                            {actionText} –{" "}
+                            <span className="font-semibold">
+                              {patientLabel}
+                            </span>{" "}
+                            <span className="text-slate-500">
+                              ({timeLabel})
+                            </span>
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            Dr. {a.doctor?.name} • {a.doctor?.department}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>
