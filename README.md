@@ -1,73 +1,118 @@
-# React + TypeScript + Vite
+# EMR Appointment System – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is the frontend application for the **EMR Appointment System** built using **React**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application provides role-based dashboards for:
 
-## React Compiler
+- Super Admin
+- Doctor
+- Receptionist
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Users can log in, manage doctors, view available slots, and book appointments.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- User authentication
+- Role-based dashboard
+- Doctor management (Super Admin)
+- Appointment scheduler
+- Slot availability grid
+- Patient registration and search
+- Appointment booking
+- Appointment management
+- Loading states and error handling
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Technologies Used
+
+- React
+- React Router
+- Axios
+- Tailwind CSS / CSS
+- Redux 
+
+---
+
+
+## Installation
+
+Clone the repository
+
+```
+git clone https://github.com/Arshia9995/EMR-Appointment-System-frontend.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Navigate to frontend folder
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+cd frontend
+```
+
+Install dependencies
+
+```
+npm install
+```
+
+---
+
+## Running the Application
+
+Start the development server
+
+```
+npm run dev
+```
+
+Application runs at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## Application Pages
+
+### Login Page
+
+Users log in using their credentials.
+
+---
+
+### Super Admin Dashboard
+
+Super Admin can:
+
+- Create Doctors
+- Create Receptionists
+- Manage system users
+
+---
+
+### Receptionist Dashboard
+
+Receptionists can:
+
+- View doctors
+- Select date
+- View available slots
+- Book appointments
+- Manage appointments
+
+---
+
+### Doctor Dashboard
+
+Doctors can:
+
+- View appointments booked for them
+- Track appointment status
+
+---
+
