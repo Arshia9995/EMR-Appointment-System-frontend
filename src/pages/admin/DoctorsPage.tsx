@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/common/Sidebar";
 import api from "../../config/api";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface Doctor {
   _id: string;
@@ -16,9 +17,40 @@ interface Doctor {
 }
 
 const DoctorsPage: React.FC = () => {
+const [newDepartment, setNewDepartment] = useState<string>("");
+const [addingDept, setAddingDept] = useState<boolean>(false);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+
+  const handleAddDepartment = async () => {
+  if (!newDepartment.trim()) {
+    toast.error("Please enter department name");
+    return;
+  }
+
+  try {
+    setAddingDept(true);
+
+    const { data } = await api.post(
+      "/api/admin/add-department",
+      { name: newDepartment },
+      { withCredentials: true }
+    );
+
+    toast.success("Department added successfully ✅");
+
+    setNewDepartment(""); // clear input
+  } catch (error: any) {
+    toast.error(
+      error.response?.data?.message || "Failed to add department"
+    );
+  } finally {
+    setAddingDept(false);
+  }
+};
+
 
   // Fetch doctors from API
   const fetchDoctors = async () => {
@@ -123,6 +155,29 @@ const DoctorsPage: React.FC = () => {
             + Add Doctor
           </button>
         </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-4 mb-6 max-w-md">
+  <h2 className="text-sm font-semibold text-slate-700 mb-3">
+    Add Department
+  </h2>
+
+  <div className="flex gap-2">
+    <input
+      type="text"
+      value={newDepartment}
+      onChange={(e) => setNewDepartment(e.target.value)}
+      placeholder="Enter department name"
+      className="flex-1 border p-2 rounded-md text-sm"
+    />
+
+    <button
+      onClick={handleAddDepartment}
+      disabled={addingDept}
+      className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 disabled:opacity-50"
+    >
+      {addingDept ? "Adding..." : "Add"}
+    </button>
+  </div>
+</div>
 
         {/* Loading / empty states */}
         {loading && (
